@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Discrete Logarithm</title>
+		<style>
+			.integer-binary {border: 1px solid #000;}
+			.digit {display: inline;}
+			.decimal {display: block; float: right; margin-right: 30px; text-align: right;}
+		</style>
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	</head>
+	<body>
+		<script>
+			var factor1 = Array();
+			var factor2 = Array();
+			var product = Array();
+			var basesize = 30;
+			$(document).ready(function() {
+				initialize(factor1, factor2, product);
+				for(i = 0; i < basesize - 1; i++) { 
+					$("div#factor1").append($("<div class='digit' id='digit" + i + "' onClick='javascript:flipMe(factor1, " + i + ")'></div>"));
+					$("div#factor2").append($("<div class='digit' id='digit" + i + "' onClick='javascript:flipMe(factor2, " + i + ")'></div>"));
+					$("div#product").append($("<div class='digit' id='digit" + i + "' onClick='javascript:flipMe(product, " + i + ")'></div>"));
+					$("div#factor1 div#digit" + i).html(factor1[i]);
+					$("div#factor2 div#digit" + i).html(factor2[i]);
+					$("div#product div#digit" + i).html(product[i]);
+				}
+				$("div.integer-binary").append($("<div class='digit' id='digit" + basesize + "'>1</div>"));
+				$("div#factor1 div.decimal").html(decimal(factor1));
+				$("div#factor2 div.decimal").html(decimal(factor2));
+				$("div#product div.decimal").html(decimal(product));
+			});
+			
+			function initialize(factor1, factor2, product) {
+				for (i = 0; i < basesize - 1; i++) {
+					factor1[i] = 0;
+					factor2[i] = 0;
+					product[i] = 0;
+				}
+				factor1[basesize - 1] = 1;
+				factor2[basesize - 1] = 1;
+				product[basesize - 1] = 1;
+				factor1['arrayname'] = 'factor1';
+				factor2['arrayname'] = 'factor2';
+				product['arrayname'] = 'product';
+			};
+			
+			function decimal(number) {
+				var decimal = 0;
+				for(i = 0; i < basesize; i++) {
+					decimal = decimal + decimal;
+					if (number[i]) {
+						decimal++;
+					}
+				}
+				return decimal;
+			};
+			
+			function flipMe(number, digit) {
+				number[digit] = 1 - number[digit];
+				$("div#" + number['arrayname'] + " div#digit" + digit).html(number[digit]);
+				$("div#" + number['arrayname'] + " div.decimal").html(decimal(number));
+			}
+			
+			function modSum(n1, n2) {
+				var sum = Array();
+				carry = 0;
+				for(i = basesize - 1; i > -1; i--) {
+					sum[i] = (n1[i] + n2[i] + carry) % 2;
+					carry = (n1[i] + n2[i] + carry > 1);
+				}
+				return sum;
+			}
+			
+			function modProduct(dividend, divisor) {
+				var quotient = Array();
+				for(i = basesize - 1; i > -1; i--) {
+					//console.log(i);
+				}
+				return quotient;
+			}
+			
+			function modQuotient(dividend, divisor) {
+				var quotient = Array();
+				for(i = basesize - 1; i > -1; i--) {
+					//console.log(i);
+				}
+				return quotient;
+			}
+		</script>
+		<h1>Discrete Logarithm</h1>
+		<div id='factor1' class='integer-binary'><div class='decimal'></div></div>
+		<div id='factor2' class='integer-binary'><div class='decimal'></div></div>
+		<div id='product' class='integer-binary'><div class='decimal'></div></div>
+		<!-- <button onclick='product = modQuotient(factor1, factor2);'>Click me</button>-->
+	</body>
+</html>
